@@ -1,0 +1,500 @@
+/* GlobeRecon - CIA Style Intelligence System */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-bg: #0a0a0a;
+    --secondary-bg: #1a1a1a;
+    --accent-bg: #2a2a2a;
+    --terminal-green: #00ff41;
+    --cyber-blue: #00d4ff;
+    --warning-orange: #ff6b35;
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0a0;
+    --border-color: #333;
+    --glow-color: rgba(0, 255, 65, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--primary-bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header Styles */
+.header {
+    background: linear-gradient(135deg, var(--secondary-bg) 0%, var(--accent-bg) 100%);
+    border-bottom: 2px solid var(--terminal-green);
+    padding: 1rem 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--terminal-green), transparent);
+    animation: scan 3s infinite;
+}
+
+@keyframes scan {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.logo-text {
+    color: var(--text-primary);
+}
+
+.logo-accent {
+    color: var(--terminal-green);
+    text-shadow: 0 0 10px var(--glow-color);
+}
+
+.status-indicator {
+    width: 8px;
+    height: 8px;
+    background: var(--terminal-green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+    box-shadow: 0 0 10px var(--glow-color);
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+.system-status {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.9rem;
+    color: var(--terminal-green);
+}
+
+.scan-line {
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--terminal-green), transparent);
+    animation: scanLine 2s infinite;
+}
+
+@keyframes scanLine {
+    0% { transform: translateX(-100px); }
+    100% { transform: translateX(100px); }
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 300px 1fr 400px;
+    gap: 1rem;
+    padding: 1rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Control Panel */
+.control-panel {
+    background: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    height: fit-content;
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
+}
+
+.panel-section {
+    margin-bottom: 2rem;
+}
+
+.panel-section h3 {
+    color: var(--cyber-blue);
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.filter-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.filter-btn {
+    background: var(--accent-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.75rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.filter-btn:hover {
+    border-color: var(--terminal-green);
+    color: var(--text-primary);
+}
+
+.filter-btn.active {
+    background: var(--terminal-green);
+    color: var(--primary-bg);
+    border-color: var(--terminal-green);
+    box-shadow: 0 0 15px var(--glow-color);
+}
+
+.control-select, .control-btn {
+    width: 100%;
+    background: var(--accent-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 0.75rem;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.control-select:focus, .control-btn:hover {
+    border-color: var(--terminal-green);
+    outline: none;
+    box-shadow: 0 0 10px var(--glow-color);
+}
+
+/* Map Container */
+.map-container {
+    background: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
+}
+
+.map-header {
+    background: var(--accent-bg);
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.map-header h2 {
+    color: var(--cyber-blue);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.target-info {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.target-info span:first-child {
+    color: var(--warning-orange);
+    font-weight: 600;
+}
+
+#selectedCountry {
+    color: var(--terminal-green);
+    font-weight: 600;
+}
+
+.world-map {
+    height: 500px;
+    background: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
+    position: relative;
+}
+
+/* Map Styles */
+.world-map svg {
+    width: 100%;
+    height: 100%;
+}
+
+.country {
+    fill: #2a2a2a;
+    stroke: green;
+    stroke-width: 0.8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+
+.country:hover {
+    fill: var(--terminal-green);
+    stroke: var(--terminal-green);
+    stroke-width: 1px;
+    filter: drop-shadow(0 0 5px var(--glow-color));
+}
+
+.country.selected {
+    fill: var(--warning-orange);
+    stroke: var(--warning-orange);
+    stroke-width: 2px;
+    filter: drop-shadow(0 0 10px rgba(255, 107, 53, 0.5));
+}
+
+/* Intelligence Panel */
+.intelligence-panel {
+    background: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    height: fit-content;
+    max-height: 600px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
+}
+
+.panel-header {
+    background: var(--accent-bg);
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.panel-header h3 {
+    color: var(--cyber-blue);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.briefing-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--terminal-green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+.news-container {
+    padding: 1rem;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.news-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.news-container::-webkit-scrollbar-track {
+    background: var(--accent-bg);
+}
+
+.news-container::-webkit-scrollbar-thumb {
+    background: var(--terminal-green);
+    border-radius: 3px;
+}
+
+.welcome-message {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-secondary);
+}
+
+.welcome-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    filter: grayscale(1);
+}
+
+.welcome-message h4 {
+    color: var(--cyber-blue);
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+.news-item {
+    background: var(--accent-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.news-item:hover {
+    border-color: var(--terminal-green);
+    box-shadow: 0 0 10px var(--glow-color);
+}
+
+.news-item h4 {
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.news-item p {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+}
+
+.news-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border-color);
+    padding-top: 0.5rem;
+}
+
+.news-source {
+    color: var(--terminal-green);
+    font-weight: 600;
+}
+
+/* Loading Animation */
+.loading {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-secondary);
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--accent-bg);
+    border-top: 3px solid var(--terminal-green);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.hidden {
+    display: none;
+}
+
+/* Footer */
+.footer {
+    background: var(--secondary-bg);
+    border-top: 1px solid var(--border-color);
+    padding: 1rem 2rem;
+    text-align: center;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.footer-warning {
+    color: var(--warning-orange);
+    font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .main-content {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .control-panel {
+        order: 2;
+    }
+    
+    .intelligence-panel {
+        order: 3;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .main-content {
+        padding: 1rem;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+/* Tooltip */
+.tooltip {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.9);
+    color: var(--terminal-green);
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    pointer-events: none;
+    z-index: 1000;
+    border: 1px solid var(--terminal-green);
+    box-shadow: 0 0 10px var(--glow-color);
+}

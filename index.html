@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlobeRecon - Intelligence Briefing System</title>
+    <link rel="stylesheet" href="src/css/style.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/topojson@3"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-text">GLOBE</span><span class="logo-accent">RECON</span>
+                    <div class="status-indicator"></div>
+                </div>
+                <div class="system-status">
+                    <span class="status-text">SYSTEM ONLINE</span>
+                    <div class="scan-line"></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Interface -->
+        <main class="main-content">
+            <!-- Control Panel -->
+            <div class="control-panel">
+                <div class="panel-section">
+                    <h3>INTELLIGENCE FILTERS</h3>
+                    <div class="filter-controls">
+                        <button class="filter-btn active" data-source="local">LOCAL INTEL</button>
+                        <button class="filter-btn" data-source="international">GLOBAL INTEL</button>
+                    </div>
+                </div>
+                
+                <div class="panel-section">
+                    <h3>LANGUAGE PROTOCOL</h3>
+                    <select id="languageSelect" class="control-select">
+                        <option value="en">English</option>
+                        <option value="fr">Français</option>
+                        <option value="es">Español</option>
+                        <option value="de">Deutsch</option>
+                    </select>
+                </div>
+
+                <div class="panel-section">
+                    <h3>MAP CONTROLS</h3>
+                    <button id="resetZoom" class="control-btn">RESET VIEW</button>
+                </div>
+            </div>
+
+            <!-- Map Container -->
+            <div class="map-container">
+                <div class="map-header">
+                    <h2>GLOBAL RECONNAISSANCE MAP</h2>
+                    <div class="target-info">
+                        <span>TARGET: </span>
+                        <span id="selectedCountry">SELECT A REGION</span>
+                    </div>
+                </div>
+                <div id="worldMap" class="world-map"></div>
+            </div>
+
+            <!-- Intelligence Panel -->
+            <div class="intelligence-panel">
+                <div class="panel-header">
+                    <h3 id="newsTitle">INTELLIGENCE BRIEFING</h3>
+                    <div class="briefing-status">
+                        <span class="status-dot"></span>
+                        <span>STANDBY</span>
+                    </div>
+                </div>
+                
+                <div id="loadingNews" class="loading hidden">
+                    <div class="loading-spinner"></div>
+                    <p>ANALYZING INTELLIGENCE...</p>
+                </div>
+                
+                <div id="newsContainer" class="news-container">
+                    <div class="welcome-message">
+                        <div class="welcome-icon">🎯</div>
+                        <h4>AWAITING TARGET SELECTION</h4>
+                        <p>Click on any region to access intelligence briefings and local reconnaissance data.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <span>GLOBERECON v2.1.0 | CLASSIFIED SYSTEM</span>
+                <span class="footer-warning">⚠ AUTHORIZED PERSONNEL ONLY</span>
+            </div>
+        </footer>
+    </div>
+
+    <script type="module" src="src/js/script.js"></script>
+</body>
+</html>
