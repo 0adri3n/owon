@@ -23,9 +23,9 @@ class GlobeRecon {
         try {
             const world = await d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
             this.worldData = topojson.feature(world, world.objects.countries);
-            console.log('[v0] World data loaded successfully');
+            console.log('[GlobalRecon] World data loaded successfully');
         } catch (error) {
-            console.error('[v0] Error loading world data:', error);
+            console.error('[GlobalRecon] Error loading world data:', error);
             this.showError('Unable to load world map data');
         }
     }
@@ -68,7 +68,7 @@ class GlobeRecon {
             .attr('class', 'country')
             .attr('d', this.path)
             .on('click', (event, d) => {
-                console.log('[v0] Country clicked:', d.properties);
+                console.log('[GlobalRecon] Country clicked:', d.properties);
                 this.selectCountry(d);
             })
             .on('mouseover', (event, d) => {
@@ -87,7 +87,11 @@ class GlobeRecon {
             .classed('selected', true);
 
         const countryName = this.getCountryName(countryData);
-        console.log('[v0] Selected country name:', countryName);
+        console.log('[GlobalRecon] Selected country name:', countryName);
+
+        const region = this.getCountryRegion(countryData);
+        console.log('[GlobalRecon] Selected country region:', region);
+    
         
         this.selectedCountry = {
             name: countryName,
@@ -109,7 +113,7 @@ class GlobeRecon {
 
     getCountryName(countryData) {
         // <CHANGE> Enhanced country name detection with debug logging
-        console.log('[v0] Country properties available:', Object.keys(countryData.properties));
+        console.log('[GlobalRecon] Country properties available:', Object.keys(countryData.properties));
         
         // Try multiple possible property names
         const possibleNames = [
@@ -130,16 +134,39 @@ class GlobeRecon {
             }
         }
 
-        console.log('[v0] Detected country name:', countryName);
+        console.log('[GlobalRecon] Detected country name:', countryName);
 
         // Fallback if no name found
         if (!countryName) {
             countryName = 'Unknown Region';
-            console.log('[v0] No country name found, using fallback');
+            console.log('[GlobalRecon] No country name found, using fallback');
         }
 
         return countryName;
     }
+
+    getCountryRegion(countryData) {
+        console.log('[GlobalRecon] Country properties available for region:', Object.keys(countryData.properties));
+
+        const possibleRegions = [
+            countryData.properties.CONTINENT,
+            countryData.properties.continent,
+            countryData.properties.REGION_UN,
+            countryData.properties.region_un,
+            countryData.properties.SUBREGION,
+            countryData.properties.subregion
+        ];
+
+        for (const region of possibleRegions) {
+            console.log(region)
+            if (region && typeof region === 'string' && region.trim()) {
+                return region.trim();
+            }
+        }
+
+        return 'Unknown Region';
+    }
+
 
     getCountryCode(countryData) {
         // <CHANGE> Enhanced country code mapping with more countries
@@ -213,7 +240,7 @@ class GlobeRecon {
 
         const countryName = this.getCountryName(countryData);
         const code = countryCodes[countryName] || 'us';
-        console.log('[v0] Country code for', countryName, ':', code);
+        console.log('[GlobalRecon] Country code for', countryName, ':', code);
         return code;
     }
 
@@ -230,7 +257,7 @@ class GlobeRecon {
             const news = await this.fetchNews();
             this.displayNews(news);
         } catch (error) {
-            console.error('[v0] Error loading news:', error);
+            console.error('[GlobalRecon] Error loading news:', error);
             this.showNewsError();
         } finally {
             loading.classList.add('hidden');
@@ -238,33 +265,80 @@ class GlobeRecon {
         }
     }
 
+    // async fetchNews() {
+    //     // <CHANGE> Updated API key placeholder and demo data
+    //     const apiKey = 'YOUR_API_KEY';
+        
+    //     if (apiKey === 'YOUR_API_KEY') {
+    //         return this.getDemoNews();
+    //     }
+
+    //     const country = this.selectedCountry.code;
+    //     const language = this.currentLanguage;
+        
+    //     let url;
+    //     if (this.currentSource === 'local') {
+    //         url = `https://newsapi.org/v2/top-headlines?country=${country}&language=${language}&apiKey=${apiKey}`;
+    //     } else {
+    //         url = `https://newsapi.org/v2/everything?q=${this.selectedCountry.name}&language=${language}&sortBy=publishedAt&apiKey=${apiKey}`;
+    //     }
+
+    //     const response = await fetch(url);
+    //     const data = await response.json();
+        
+    //     if (data.status === 'error') {
+    //         throw new Error(data.message);
+    //     }
+        
+    //     return data.articles || [];
+    // }
+
     async fetchNews() {
-        // <CHANGE> Updated API key placeholder and demo data
-        const apiKey = 'YOUR_API_KEY';
-        
-        if (apiKey === 'YOUR_API_KEY') {
-            return this.getDemoNews();
+        // Si un flux RSS est configuré pour le pays sélectionné, on le prend
+        console.log(this.selectedCountry)
+        if (this.selectedCountry?.name === 'Palestine') { // Palestine par ex.
+            return await this.fetchRSS('https://globalvoices.org/-/world/middle-east-north-africa/palestine/feed/');
         }
 
-        const country = this.selectedCountry.code;
-        const language = this.currentLanguage;
-        
-        let url;
-        if (this.currentSource === 'local') {
-            url = `https://newsapi.org/v2/top-headlines?country=${country}&language=${language}&apiKey=${apiKey}`;
-        } else {
-            url = `https://newsapi.org/v2/everything?q=${this.selectedCountry.name}&language=${language}&sortBy=publishedAt&apiKey=${apiKey}`;
-        }
-
-        const response = await fetch(url);
-        const data = await response.json();
-        
-        if (data.status === 'error') {
-            throw new Error(data.message);
-        }
-        
-        return data.articles || [];
+        // Sinon, on garde ton système existant (NewsAPI ou démo)
+        return this.getDemoNews();
     }
+
+    async fetchRSS(feedUrl) {
+        try {
+            // Utilisation du proxy pour contourner CORS
+            const proxyUrl = 'https://corsproxy.io/?';
+            const fetchUrl = `${proxyUrl}${encodeURIComponent(feedUrl)}`;
+
+            const response = await fetch(fetchUrl);
+            const data = await response.text();
+
+            // Parser le XML
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(data, "application/xml");
+            const items = xmlDoc.querySelectorAll("item");
+
+            console.log(items)
+
+            // Convertir en tableau d'articles compatible displayNews
+            const articles = Array.from(items).map(item => ({
+                title: item.querySelector("title")?.textContent || "No title",
+                description: item.querySelector("description")?.textContent || "No description",
+                url: item.querySelector("link")?.textContent || "#",
+                source: { name: item.querySelector("source")?.textContent || "RSS Feed" },
+                publishedAt: item.querySelector("pubDate")?.textContent || new Date().toISOString()
+            }));
+
+            // Appeler displayNews pour injecter dans le DOM
+            return articles
+        } catch (error) {
+            console.error('Error fetching the RSS feed:', error);
+            // Si erreur, afficher message vide
+            return []
+        }
+    }
+
+
 
     getDemoNews() {
         // <CHANGE> Updated demo news with intelligence theme

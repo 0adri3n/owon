@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GlobeRecon - Intelligence Briefing System</title>
     <link rel="stylesheet" href="src/css/style.css">
+    <link rel="icon" href="src/img/logo.ico">
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://unpkg.com/topojson@3"></script>
 </head>
@@ -18,7 +19,6 @@
                     <div class="status-indicator"></div>
                 </div>
                 <div class="system-status">
-                    <span class="status-text">SYSTEM ONLINE</span>
                     <div class="scan-line"></div>
                 </div>
             </div>
@@ -28,8 +28,8 @@
         <main class="main-content">
             <!-- Control Panel -->
             <div class="control-panel">
-                <div class="panel-section">
-                    <h3>INTELLIGENCE FILTERS</h3>
+                <!-- <div class="panel-section">
+                    <h3>NEWS FILTERS</h3>
                     <div class="filter-controls">
                         <button class="filter-btn active" data-source="local">LOCAL INTEL</button>
                         <button class="filter-btn" data-source="international">GLOBAL INTEL</button>
@@ -44,7 +44,7 @@
                         <option value="es">Español</option>
                         <option value="de">Deutsch</option>
                     </select>
-                </div>
+                </div> -->
 
                 <div class="panel-section">
                     <h3>MAP CONTROLS</h3>
@@ -55,7 +55,7 @@
             <!-- Map Container -->
             <div class="map-container">
                 <div class="map-header">
-                    <h2>GLOBAL RECONNAISSANCE MAP</h2>
+                    <h2>GLOBAL MAP</h2>
                     <div class="target-info">
                         <span>TARGET: </span>
                         <span id="selectedCountry">SELECT A REGION</span>
@@ -67,7 +67,7 @@
             <!-- Intelligence Panel -->
             <div class="intelligence-panel">
                 <div class="panel-header">
-                    <h3 id="newsTitle">INTELLIGENCE BRIEFING</h3>
+                    <h3 id="newsTitle">RECON BRIEFING</h3>
                     <div class="briefing-status">
                         <span class="status-dot"></span>
                         <span>STANDBY</span>
@@ -92,8 +92,8 @@
         <!-- Footer -->
         <footer class="footer">
             <div class="footer-content">
-                <span>GLOBERECON v2.1.0 | CLASSIFIED SYSTEM</span>
-                <span class="footer-warning">⚠ AUTHORIZED PERSONNEL ONLY</span>
+                <span>GLOBERECON v1.1.0 | made with ❤️ by 0adri3n</span>
+                <span class="footer-warning">Our world, our news. Stay updated all around the Blue Planet.</span>
             </div>
         </footer>
     </div>
