@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GlobeRecon - Intelligence Briefing System</title>
+    <!-- <CHANGE> Changed title and branding from GlobeRecon to owon -->
+    <title>owon - Our World Our News</title>
     <link rel="stylesheet" href="src/css/style.css">
     <link rel="icon" href="src/img/logo.ico">
     <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -15,11 +16,13 @@
         <header class="header">
             <div class="header-content">
                 <div class="logo">
-                    <span class="logo-text">GLOBE</span><span class="logo-accent">RECON</span>
+                    <!-- <CHANGE> Updated logo text to owon branding -->
+                    <span class="logo-text">owon</span>
                     <div class="status-indicator"></div>
                 </div>
-                <div class="system-status">
-                    <div class="scan-line"></div>
+                <div class="tagline">
+                    <!-- <CHANGE> Added journalism tagline -->
+                    <span>Our World Our News</span>
                 </div>
             </div>
         </header>
@@ -28,44 +31,44 @@
         <main class="main-content">
             <!-- Control Panel -->
             <div class="control-panel">
-
                 <div class="panel-section">
-                    <h3>LATEST NEWS</h3>
+                    <!-- <CHANGE> Changed from technical terms to journalism terms -->
+                    <h3>Latest Stories</h3>
                 </div>
             </div>
 
             <!-- Map Container -->
             <div class="map-container">
                 <div class="map-header">
-                    <h2>GLOBAL MAP</h2>
+                    <!-- <CHANGE> Updated header text to be more journalistic -->
+                    <h2>World News Map</h2>
                     <div class="target-info">
-                        <span>SELECTED COUNTRY: </span>
-                        <span id="selectedCountry">SELECT A REGION</span>
+                        <span>Selected Country: </span>
+                        <span id="selectedCountry">Click on any country</span>
                     </div>
                 </div>
                 <div id="worldMap" class="world-map"></div>
             </div>
 
-            <!-- Intelligence Panel -->
-            <div class="intelligence-panel">
+            <!-- News Panel -->
+            <div class="news-panel">
                 <div class="panel-header">
-                    <h3 id="newsTitle">ARTICLES</h3>
-                    <div class="briefing-status">
-                        <span class="status-dot"></span>
-                        <span>STANDBY</span>
-                    </div>
+                    <!-- <CHANGE> Changed from intelligence terms to news terms -->
+                    <h3 id="newsTitle">News Articles</h3>
                 </div>
                 
                 <div id="loadingNews" class="loading hidden">
                     <div class="loading-spinner"></div>
-                    <p>ANALYZING INTELLIGENCE...</p>
+                    <!-- <CHANGE> Changed loading text to journalism context -->
+                    <p>Loading news stories...</p>
                 </div>
                 
                 <div id="newsContainer" class="news-container">
                     <div class="welcome-message">
-                        <div class="welcome-icon">🎯</div>
-                        <h4>AWAITING TARGET SELECTION</h4>
-                        <p>Click on any region to read news.</p>
+                        <div class="welcome-icon">🌍</div>
+                        <!-- <CHANGE> Updated welcome message for journalism context -->
+                        <h4>Explore World News</h4>
+                        <p>Click on any country to read the latest news stories.</p>
                     </div>
                 </div>
             </div>
@@ -74,12 +77,14 @@
         <!-- Footer -->
         <footer class="footer">
             <div class="footer-content">
-                <span>GLOBERECON v1.0.0 | made with ❤️ by 0adri3n</span>
-                <span class="footer-warning">Our world, our news. Stay updated all around the Blue Planet.</span>
+                <!-- <CHANGE> Updated footer branding and message -->
+                <span>owon v1.0.0 | made with ❤️ by 0adri3n</span>
+                <span class="footer-tagline">Our world, our news. Stay updated all around the Blue Planet.</span>
             </div>
         </footer>
     </div>
 
+    <!-- <CHANGE> Updated script reference -->
     <script type="module" src="src/js/script.js"></script>
 </body>
 </html>

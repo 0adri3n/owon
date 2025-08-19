@@ -5,23 +5,26 @@
 }
 
 :root {
-    --primary-bg: #f8f4ff;
-    --secondary-bg: #e8d5ff;
-    --accent-bg: #d4b3ff;
-    --primary-purple: #7209b7;
-    --secondary-purple: #5a189a;
-    --light-purple: #c77dff;
-    --text-primary: #2d1b69;
-    --text-secondary: #5a189a;
-    --border-color: #c77dff;
-    --success-color: #28a745;
-    --warning-color: #ffc107;
-    --danger-color: #dc3545;
+    /* <CHANGE> Updated color palette for journalism style - softer, more accessible */
+    --primary-bg: #faf8ff;
+    --secondary-bg: #f0ebff;
+    --accent-bg: #e6d9ff;
+    --primary-purple: #8b5cf6;
+    --secondary-purple: #7c3aed;
+    --light-purple: #a78bfa;
+    --text-primary: #374151;
+    --text-secondary: #6b7280;
+    --border-color: #d1d5db;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+    --card-bg: #ffffff;
 }
 
 html, body {
     height: 100%;
-    font-family: 'Courier New', monospace;
+    /* <CHANGE> Changed from monospace to more readable fonts for journalism */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
     color: var(--text-primary);
     overflow-x: hidden;
@@ -35,10 +38,11 @@ html, body {
 
 /* Header Styles */
 .header {
+    /* <CHANGE> Softer header styling, less aggressive gradient */
     background: linear-gradient(90deg, var(--primary-purple), var(--secondary-purple));
-    padding: 1rem 2rem;
-    border-bottom: 2px solid var(--border-color);
-    box-shadow: 0 2px 10px rgba(114, 9, 183, 0.3);
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.15);
 }
 
 .header-content {
@@ -52,21 +56,23 @@ html, body {
 .logo {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 1rem;
 }
 
 .logo-text {
-    font-size: 1.8rem;
-    font-weight: bold;
+    /* <CHANGE> Updated logo styling for owon branding */
+    font-size: 2.5rem;
+    font-weight: 700;
     color: white;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    text-shadow: none;
+    letter-spacing: -0.02em;
 }
 
-.logo-accent {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: var(--light-purple);
-    text-shadow: 0 0 10px var(--light-purple);
+.tagline {
+    /* <CHANGE> Added tagline styling */
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    font-weight: 500;
 }
 
 .status-indicator {
@@ -75,35 +81,17 @@ html, body {
     background: var(--success-color);
     border-radius: 50%;
     animation: pulse 2s infinite;
-    box-shadow: 0 0 10px var(--success-color);
 }
 
-.system-status {
-    position: relative;
-    width: 200px;
-    height: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    overflow: hidden;
-}
+/* <CHANGE> Removed scan-line animation for cleaner journalism look */
 
-.scan-line {
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, var(--light-purple), transparent);
-    animation: scan 3s infinite;
-}
-
-/*  Main content takes remaining space */
+/* Main content takes remaining space */
 .main-content {
     flex: 1;
     display: grid;
     grid-template-columns: 300px 1fr 400px;
-    gap: 1rem;
-    padding: 1rem;
+    gap: 1.5rem;
+    padding: 1.5rem;
     max-width: 1400px;
     margin: 0 auto;
     width: 100%;
@@ -111,12 +99,12 @@ html, body {
 
 /* Control Panel */
 .control-panel {
-    background: var(--secondary-bg);
+    /* <CHANGE> Card-like styling for journalism interface */
+    background: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 1rem;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 15px rgba(114, 9, 183, 0.2);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 .panel-section {
@@ -124,70 +112,29 @@ html, body {
 }
 
 .panel-section h3 {
+    /* <CHANGE> Softer heading styling */
     color: var(--primary-purple);
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 0.3rem;
-}
-
-/* Styled control buttons */
-.control-btn, .filter-btn {
-    width: 100%;
-    padding: 0.7rem;
-    background: linear-gradient(135deg, var(--accent-bg), var(--light-purple));
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    font-family: 'Courier New', monospace;
-    font-size: 0.8rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 0.5rem;
-}
-
-.control-btn:hover, .filter-btn:hover {
-    background: linear-gradient(135deg, var(--light-purple), var(--primary-purple));
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(114, 9, 183, 0.4);
-}
-
-.filter-btn.active {
-    background: var(--primary-purple);
-    color: white;
-    box-shadow: 0 0 15px rgba(114, 9, 183, 0.6);
-}
-
-.control-select {
-    width: 100%;
-    padding: 0.5rem;
-    background: var(--primary-bg);
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    font-family: 'Courier New', monospace;
-    font-size: 0.8rem;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    border-bottom: 2px solid var(--light-purple);
+    padding-bottom: 0.5rem;
 }
 
 /* Map Container */
 .map-container {
-    background: var(--primary-bg);
+    /* <CHANGE> Clean card styling */
+    background: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: 8px;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(114, 9, 183, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     position: relative;
 }
 
 .map-header {
     background: var(--secondary-bg);
-    padding: 1rem;
+    padding: 1.5rem;
     border-bottom: 1px solid var(--border-color);
     display: flex;
     justify-content: space-between;
@@ -195,23 +142,24 @@ html, body {
 }
 
 .map-header h2 {
+    /* <CHANGE> More readable heading */
     color: var(--primary-purple);
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 
 .target-info {
     color: var(--text-secondary);
-    font-size: 0.9rem;
-    font-weight: bold;
+    font-size: 1rem;
+    font-weight: 500;
 }
 
 .target-info span:first-child {
     color: var(--primary-purple);
+    font-weight: 600;
 }
 
-/*  World map takes full available space */
+/* World map takes full available space */
 .world-map {
     width: 100%;
     height: calc(100vh - 200px);
@@ -223,96 +171,96 @@ html, body {
 .world-map svg {
     width: 100%;
     height: 100%;
-    cursor: crosshair;
+    cursor: pointer;
 }
 
-/*  Styled map zoom controls */
+/* Styled map zoom controls */
 .zoom-controls {
     position: absolute;
     top: 20px;
     right: 20px;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 8px;
     z-index: 1000;
 }
 
 .zoom-btn {
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, var(--accent-bg), var(--light-purple));
-    color: var(--text-primary);
+    /* <CHANGE> Cleaner button styling */
+    width: 44px;
+    height: 44px;
+    background: var(--card-bg);
+    color: var(--primary-purple);
     border: 1px solid var(--border-color);
-    border-radius: 4px;
-    font-family: 'Courier New', monospace;
+    border-radius: 8px;
     font-size: 1.2rem;
-    font-weight: bold;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .zoom-btn:hover {
-    background: linear-gradient(135deg, var(--light-purple), var(--primary-purple));
+    background: var(--primary-purple);
     color: white;
-    transform: scale(1.1);
-    box-shadow: 0 4px 15px rgba(114, 9, 183, 0.4);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(139, 92, 246, 0.2);
 }
 
 /* Country styles */
 .country {
+    /* <CHANGE> Softer country styling */
     fill: var(--accent-bg);
     stroke: var(--border-color);
-    stroke-width: 0.2px;
+    stroke-width: 0.1px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 .country:hover {
     fill: var(--light-purple);
     stroke: var(--primary-purple);
-    stroke-width: 0.3px;
-    filter: drop-shadow(0 0 5px rgba(114, 9, 183, 0.6));
+    stroke-width: 0.2px;
 }
 
 .country.selected {
     fill: var(--primary-purple);
     stroke: var(--secondary-purple);
-    stroke-width: 0.2px;
-    filter: drop-shadow(0 0 10px rgba(114, 9, 183, 0.8));
+    stroke-width: 0.1px;
 }
 
 .country-label {
-  fill: #7209b7;
-  font-family: "Courier New", monospace;
-  font-weight: 600;
-  font-size: 10px;
-  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
-  transition: opacity 0.3s ease, font-size 0.3s ease;
+    /* <CHANGE> More readable labels */
+    fill: var(--primary-purple);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    transition: opacity 0.3s ease, font-size 0.3s ease;
 }
 
 .country-label:hover {
-  fill: #5a189a;
+    fill: var(--secondary-purple);
 }
 
 .labels-group {
-  z-index: 2;
+    z-index: 2;
 }
 
 .countries-group {
-  z-index: 1;
+    z-index: 1;
 }
 
-/* Intelligence Panel */
-.intelligence-panel {
-    background: var(--secondary-bg);
+/* News Panel */
+.news-panel {
+    /* <CHANGE> Renamed from intelligence-panel and updated styling */
+    background: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: 8px;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(114, 9, 183, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
 }
@@ -320,23 +268,23 @@ html, body {
 .panel-header {
     background: var(--primary-purple);
     color: white;
-    padding: 1rem;
+    padding: 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .panel-header h3 {
-    font-size: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    font-size: 1.2rem;
+    font-weight: 600;
 }
 
-.briefing-status {
+.news-status {
+    /* <CHANGE> Renamed from briefing-status */
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
 }
 
 .status-dot {
@@ -349,14 +297,14 @@ html, body {
 
 .news-container {
     flex: 1;
-    padding: 1rem;
+    padding: 1.5rem;
     overflow-y: auto;
     max-height: calc(100vh - 300px);
 }
 
 .welcome-message {
     text-align: center;
-    padding: 2rem;
+    padding: 3rem 2rem;
     color: var(--text-secondary);
 }
 
@@ -366,62 +314,71 @@ html, body {
 }
 
 .welcome-message h4 {
+    /* <CHANGE> Updated welcome message styling */
     color: var(--primary-purple);
     margin-bottom: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.welcome-message p {
+    font-size: 1rem;
+    line-height: 1.5;
 }
 
 .news-item {
+    /* <CHANGE> Improved news item styling */
     background: var(--primary-bg);
     border: 1px solid var(--border-color);
-    border-radius: 6px;
-    padding: 1rem;
+    border-radius: 8px;
+    padding: 1.5rem;
     margin-bottom: 1rem;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     cursor: pointer;
 }
 
 .news-item:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(114, 9, 183, 0.3);
+    box-shadow: 0 8px 16px rgba(139, 92, 246, 0.1);
+    border-color: var(--light-purple);
 }
 
 .news-item h4 {
-    color: var(--primary-purple);
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
     line-height: 1.4;
+    font-weight: 600;
 }
 
 .news-item p {
     color: var(--text-secondary);
-    font-size: 0.8rem;
-    line-height: 1.4;
-    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
 }
 
 .news-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     color: var(--text-secondary);
     border-top: 1px solid var(--border-color);
-    padding-top: 0.5rem;
-    margin-top: 0.5rem;
+    padding-top: 0.75rem;
+    margin-top: 0.75rem;
 }
 
 .news-source {
-    font-weight: bold;
+    font-weight: 600;
     color: var(--primary-purple);
 }
 
 .read-more {
     color: var(--primary-purple);
     text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s ease;
+    font-weight: 600;
+    transition: color 0.2s ease;
 }
 
 .read-more:hover {
@@ -432,7 +389,7 @@ html, body {
 /* Loading Animation */
 .loading {
     text-align: center;
-    padding: 2rem;
+    padding: 3rem 2rem;
     color: var(--text-secondary);
 }
 
@@ -454,7 +411,7 @@ html, body {
 .footer {
     background: var(--secondary-bg);
     border-top: 1px solid var(--border-color);
-    padding: 1rem 2rem;
+    padding: 1.5rem 2rem;
     margin-top: auto;
 }
 
@@ -464,23 +421,20 @@ html, body {
     align-items: center;
     max-width: 1400px;
     margin: 0 auto;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: var(--text-secondary);
 }
 
-.footer-warning {
+.footer-tagline {
+    /* <CHANGE> Updated footer tagline styling */
     font-style: italic;
+    color: var(--primary-purple);
 }
 
 /* Animations */
 @keyframes pulse {
     0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-}
-
-@keyframes scan {
-    0% { left: -100%; }
-    100% { left: 100%; }
+    50% { opacity: 0.7; }
 }
 
 @keyframes spin {
@@ -499,6 +453,8 @@ html, body {
     .main-content {
         grid-template-columns: 1fr;
         grid-template-rows: auto 1fr auto;
+        gap: 1rem;
+        padding: 1rem;
     }
     
     .control-panel {
@@ -509,11 +465,19 @@ html, body {
         order: 1;
     }
     
-    .intelligence-panel {
+    .news-panel {
         order: 2;
     }
     
     .world-map {
         height: 400px;
+    }
+    
+    .header {
+        padding: 1rem;
+    }
+    
+    .logo-text {
+        font-size: 2rem;
     }
 }

@@ -57,7 +57,7 @@ class GlobeRecon {
             'Fiji': ['https://globalvoices.org/-/world/oceania/fiji/feed/'],
             'Finland': ['https://globalvoices.org/-/world/western-europe/finland/feed/'],
             'Fr. S. Antarctic Lands': ['https://globalvoices.org/-/world/south-asia/sri-lanka/feed/'],
-            'France': ['https://globalvoices.org/-/world/western-europe/france/feed/', 'https://globalvoices.org/-/world/middle-east-north-africa/palestine/feed/'],
+            'France': ['https://globalvoices.org/-/world/western-europe/france/feed/'],
             'Gabon': ['https://globalvoices.org/-/world/sub-saharan-africa/gabon/feed/'],
             'Gambia': ['https://globalvoices.org/-/world/sub-saharan-africa/gambia/feed/'],
             'Georgia': ['https://globalvoices.org/-/world/central-asia-caucasus/georgia/feed/'],
@@ -365,12 +365,8 @@ class GlobeRecon {
 
         // Update UI with TARGET ACQUIRED status
         document.getElementById('selectedCountry').textContent = countryName;
-        document.getElementById('newsTitle').textContent = `INTEL BRIEFING - ${countryName.toUpperCase()}`;
-        
-        // Update briefing status
-        const statusText = document.querySelector('.briefing-status span:last-child');
-        statusText.textContent = 'COUNTRY ACQUIRED';
-        statusText.style.color = '  r(--warning-orange)';
+        document.getElementById('newsTitle').textContent = ` News about ${countryName.toUpperCase()}`;
+    
 
         this.loadNews();
     }
@@ -498,7 +494,7 @@ class GlobeRecon {
         };
 
         const countryName = this.getCountryName(countryData);
-        const code = countryCodes[countryName] || 'us';
+        const code = countryCodes[countryName] || 'fr';
         return code;
     }
 

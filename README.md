@@ -1,10 +1,10 @@
-# 🌍 GlobalRecon
+# 🌍 owon
 
 Our world, our news. Stay updated all around the Blue Planet.
 
 
-**GlobalRecon** is an interactive world map platform that allows users to explore the latest news from any country, directly from local press sources.  
-The goal of the project is to make information gathering and situational awareness easier, faster, and more transparent — a tool at the intersection of **open-source intelligence (OSINT)** and global journalism.
+**owon** is an interactive world map platform that allows users to explore the latest news from any country.  
+The goal of the project is to make information gathering and situational awareness easier, faster, and more transparent.
 
 ---
 
@@ -25,19 +25,18 @@ The goal of the project is to make information gathering and situational awarene
 ---
 
 ## 📌 Roadmap
-- [ ] Build and style the interactive world map  
-- [ ] Display country-level info on click  
+- [X] Build and style the interactive world map  
+- [X] Display country-level info on click  
 - [ ] Integrate news feeds per country  
 - [ ] Add filtering (topics, sources, time)  
-- [ ] OSINT/data analysis tools (keywords, sentiment, trends)  
 
 ---
 
 ## 🔧 Setup & Usage
 Clone the repository:
 ```bash
-git clone https://github.com/<your-username>/GlobalRecon.git
-cd GlobalRecon
+git clone https://github.com/<your-username>/owon.git
+cd owon
 ````
 
 Open `index.html` directly in your browser.
