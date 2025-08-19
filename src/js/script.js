@@ -1,4 +1,4 @@
-class GlobeRecon {
+class owon {
     constructor() {
 
         this.rssFeeds = {
@@ -200,25 +200,23 @@ class GlobeRecon {
 
     async loadWorldData() {
         try {
-        // Utilisation des données TopoJSON pour la carte du monde
-        const world = await d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
-        this.worldData = topojson.feature(world, world.objects.countries)
-        this.addGazaStrip()
+            const world = await d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json")
+            this.worldData = topojson.feature(world, world.objects.countries)
+            this.addGazaStrip()
         } catch (error) {
-        console.error("Error loading map data:", error)
-        this.showError("Unable to load world map")
+            console.error("Error loading map data:", error)
+            this.showError("Unable to load world map")
         }
     }
 
     addGazaStrip() {
-        // Gaza Strip coordinates (approximate boundaries)
         const gazaCoordinates = [
             [
-                [34.550, 31.650], // Northwest - côte Méditerranée
-                [34.530, 31.550], // Nord-Est
-                [34.330, 31.220], // Sud-Est (frontière Égypte)
-                [34.300, 31.250], // Sud-Ouest (frontière Égypte, côté mer)
-                [34.200, 31.550]  // Retour au Nord-Ouest
+                [34.550, 31.650], 
+                [34.530, 31.550], 
+                [34.330, 31.220], 
+                [34.300, 31.250], 
+                [34.200, 31.550]  
             ],
         ];
 
@@ -238,7 +236,6 @@ class GlobeRecon {
         },
         }
 
-        // Add Gaza to the world data
         this.worldData.features.push(gazaFeature)
     }
 
@@ -308,6 +305,7 @@ class GlobeRecon {
         .enter()
         .append("text")
         .attr("class", "country-label")
+        // <text class="country-label" x="304" y="172.5" text-anchor="middle" dominant-baseline="middle" style="pointer-events: none; opacity: 1; font-size: 0.430762px;">France</text>
         .attr("x", (d) => {
             const centroid = this.path.centroid(d)
             return centroid[0]
@@ -320,6 +318,15 @@ class GlobeRecon {
         .attr("dominant-baseline", "middle")
         .text((d) => this.getCountryName(d))
         .style("pointer-events", "none")
+
+        // Don't ask me why but France Label is placed on Spain lol
+        const franceLabel = document.querySelector('#worldMap > svg > g.labels-group > text:nth-child(44)');
+        if (franceLabel.textContent == "France") {
+            const newX = 237.5;
+            const newY = 190;
+            franceLabel.setAttribute("x", newX);
+            franceLabel.setAttribute("y", newY);
+        }
         this.updateLabels()
 
     }
@@ -365,7 +372,7 @@ class GlobeRecon {
 
         // Update UI with TARGET ACQUIRED status
         document.getElementById('selectedCountry').textContent = countryName;
-        document.getElementById('newsTitle').textContent = ` News about ${countryName.toUpperCase()}`;
+        document.getElementById('newsTitle').textContent = ` News about ${countryName}`;
     
 
         this.loadNews();
@@ -655,7 +662,7 @@ class GlobeRecon {
     }
 }
 
-// Initialize GlobeRecon system
+// Initialize owon system
 document.addEventListener('DOMContentLoaded', () => {
-    new GlobeRecon();
+    new owon();
 });

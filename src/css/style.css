@@ -215,7 +215,7 @@ html, body {
     /* <CHANGE> Softer country styling */
     fill: var(--accent-bg);
     stroke: var(--border-color);
-    stroke-width: 0.1px;
+    stroke-width: 0.05px;
     cursor: pointer;
     transition: all 0.2s ease;
 }
@@ -223,13 +223,13 @@ html, body {
 .country:hover {
     fill: var(--light-purple);
     stroke: var(--primary-purple);
-    stroke-width: 0.2px;
+    stroke-width: 0.1px;
 }
 
 .country.selected {
-    fill: var(--primary-purple);
+    fill: var(--light-purple);
     stroke: var(--secondary-purple);
-    stroke-width: 0.1px;
+    stroke-width: 0.05px;
 }
 
 .country-label {
@@ -279,27 +279,11 @@ html, body {
     font-weight: 600;
 }
 
-.news-status {
-    /* <CHANGE> Renamed from briefing-status */
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.9rem;
-}
-
-.status-dot {
-    width: 8px;
-    height: 8px;
-    background: var(--success-color);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-}
-
 .news-container {
     flex: 1;
     padding: 1.5rem;
     overflow-y: auto;
-    max-height: calc(100vh - 300px);
+    max-height: calc(110vh - 300px);
 }
 
 .welcome-message {
