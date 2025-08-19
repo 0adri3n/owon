@@ -21,63 +21,151 @@ class GlobeRecon {
 
     async loadWorldData() {
         try {
-            const world = await d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
-            this.worldData = topojson.feature(world, world.objects.countries);
-            console.log('[GlobalRecon] World data loaded successfully');
+        // Utilisation des données TopoJSON pour la carte du monde
+        const world = await d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
+        this.worldData = topojson.feature(world, world.objects.countries)
+
+        this.addGazaStrip()
         } catch (error) {
-            console.error('[GlobalRecon] Error loading world data:', error);
-            this.showError('Unable to load world map data');
+        console.error("Error loading map data:", error)
+        this.showError("Unable to load world map")
         }
     }
 
+    addGazaStrip() {
+        // Gaza Strip coordinates (approximate boundaries)
+        const gazaCoordinates = [
+            [
+                [34.550, 31.650], // Northwest - côte Méditerranée
+                [34.530, 31.550], // Nord-Est
+                [34.330, 31.220], // Sud-Est (frontière Égypte)
+                [34.300, 31.250], // Sud-Ouest (frontière Égypte, côté mer)
+                [34.200, 31.550]  // Retour au Nord-Ouest
+            ],
+        ];
+
+
+        const gazaFeature = {
+        type: "Feature",
+        properties: {
+            NAME: "Gaza Strip",
+            name: "Gaza Strip",
+            ADMIN: "Palestine",
+            ISO_A2: "PS",
+            custom: true,
+        },
+        geometry: {
+            type: "Polygon",
+            coordinates: gazaCoordinates,
+        },
+        }
+
+        // Add Gaza to the world data
+        this.worldData.features.push(gazaFeature)
+    }
+
     setupMap() {
-        const container = d3.select('#worldMap');
-        const width = container.node().getBoundingClientRect().width;
-        const height = 500;
+        const container = d3.select("#worldMap")
+        const width = container.node().getBoundingClientRect().width
+        const height = 500
 
-        this.projection = d3.geoNaturalEarth1()
-            .scale(width / 6.5)
-            .translate([width / 2, height / 2]);
+        // Configuration de la projection
+        this.projection = d3
+        .geoNaturalEarth1()
+        .scale(width / 6.5)
+        .translate([width / 2, height / 2])
 
-        this.path = d3.geoPath().projection(this.projection);
+        this.path = d3.geoPath().projection(this.projection)
 
-        this.svg = container.append('svg')
-            .attr('width', width)
-            .attr('height', height);
+        // Création du SVG
+        this.svg = container.append("svg").attr("width", width).attr("height", height)
 
-        // <CHANGE> Setup zoom with proper scale limits and smooth transitions
-        this.zoom = d3.zoom()
-            .scaleExtent([1, 8])
-            .on('zoom', (event) => {
-                this.svg.selectAll('path')
-                    .attr('transform', event.transform);
-            });
+        this.countriesGroup = this.svg.append("g").attr("class", "countries-group")
+        this.labelsGroup = this.svg.append("g").attr("class", "labels-group")
 
-        this.svg.call(this.zoom);
+        // Ajout du zoom
+        const zoom = d3
+        .zoom()
+        .scaleExtent([1, 70])
+        .on("zoom", (event) => {
+            this.currentTransform = event.transform
+            this.countriesGroup.attr("transform", event.transform)
+            this.labelsGroup.attr("transform", event.transform)
+            this.updateLabels()
+        })
 
+        this.svg.call(zoom)
+
+        // Dessin des pays
         if (this.worldData) {
-            this.drawCountries();
+        this.drawCountries()
+        this.drawCountryLabels()
         }
     }
 
     drawCountries() {
-        this.svg.selectAll('.country')
-            .data(this.worldData.features)
-            .enter()
-            .append('path')
-            .attr('class', 'country')
-            .attr('d', this.path)
-            .on('click', (event, d) => {
-                console.log('[GlobalRecon] Country clicked:', d.properties);
-                this.selectCountry(d);
-            })
-            .on('mouseover', (event, d) => {
-                const countryName = this.getCountryName(d);
-                this.showTooltip(event, countryName);
-            })
-            .on('mouseout', () => {
-                this.hideTooltip();
-            });
+        this.countriesGroup
+        .selectAll(".country")
+        .data(this.worldData.features)
+        .enter()
+        .append("path")
+        .attr("class", "country")
+        .attr("d", this.path)
+        .on("click", (event, d) => {
+            this.selectCountry(d)
+        })
+        .on("mouseover", (event, d) => {
+            const countryName = this.getCountryName(d)
+            this.showTooltip(event, countryName)
+        })
+        .on("mouseout", () => {
+            this.hideTooltip()
+        })
+    }
+
+    drawCountryLabels() {
+        this.labelsGroup
+        .selectAll(".country-label")
+        .data(this.worldData.features)
+        .enter()
+        .append("text")
+        .attr("class", "country-label")
+        .attr("x", (d) => {
+            const centroid = this.path.centroid(d)
+            return centroid[0]
+        })
+        .attr("y", (d) => {
+            const centroid = this.path.centroid(d)
+            return centroid[1]
+        })
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "middle")
+        .text((d) => this.getCountryName(d))
+        .style("pointer-events", "none")
+
+        this.updateLabels()
+    }
+
+    
+    updateLabels() {
+        const scale = this.currentTransform.k
+
+        this.labelsGroup
+        .selectAll(".country-label")
+        .style("opacity", (d) => {
+            // Show labels based on country size and zoom level
+            const bounds = this.path.bounds(d)
+            const area = (bounds[1][0] - bounds[0][0]) * (bounds[1][1] - bounds[0][1])
+            const minArea = 500 / (scale * scale) // Adjust threshold based on zoom
+            return area > minArea ? Math.min(1, scale * 0.5) : 0
+        })
+        .style("font-size", (d) => {
+            // Adjust font size based on zoom and country size
+            const bounds = this.path.bounds(d)
+            const area = (bounds[1][0] - bounds[0][0]) * (bounds[1][1] - bounds[0][1])
+            const baseSize = Math.max(12, Math.min(16, Math.sqrt(area) * 0.1))
+            return `${baseSize / scale}px`
+        })
     }
 
     selectCountry(countryData) {
@@ -105,7 +193,7 @@ class GlobeRecon {
         
         // Update briefing status
         const statusText = document.querySelector('.briefing-status span:last-child');
-        statusText.textContent = 'TARGET ACQUIRED';
+        statusText.textContent = 'COUNTRY ACQUIRED';
         statusText.style.color = 'var(--warning-orange)';
 
         this.loadNews();
@@ -129,6 +217,12 @@ class GlobeRecon {
         let countryName = null;
         for (const name of possibleNames) {
             if (name && typeof name === 'string' && name.trim()) {
+                if (
+                    name &&
+                    (name.includes("Palestine") || name.includes("West Bank") || name.includes("Gaza"))
+                    ) {
+                    return "Palestine"
+                }
                 countryName = name.trim();
                 break;
             }
@@ -141,6 +235,7 @@ class GlobeRecon {
             countryName = 'Unknown Region';
             console.log('[GlobalRecon] No country name found, using fallback');
         }
+
 
         return countryName;
     }
@@ -235,10 +330,20 @@ class GlobeRecon {
             'Kenya': 'ke',
             'Morocco': 'ma',
             'Algeria': 'dz',
-            'Tunisia': 'tn'
+            'Tunisia': 'tn',
+            "West Bank": "ps",
+            "Gaza Strip": "ps",
         };
 
+
+
         const countryName = this.getCountryName(countryData);
+        if (
+            countryName &&
+            (countryName.includes("Israel") || countryName.includes("Palestine") || countryName.includes("West Bank") || countryName.includes("Gaza"))
+            ) {
+            return "ps"
+        }
         const code = countryCodes[countryName] || 'us';
         console.log('[GlobalRecon] Country code for', countryName, ':', code);
         return code;
@@ -425,6 +530,7 @@ class GlobeRecon {
             this.svg.transition()
                 .duration(750)
                 .call(this.zoom.transform, d3.zoomIdentity);
+                  this.updateLabels()
         });
 
         document.getElementById('languageSelect').addEventListener('change', (e) => {
@@ -458,7 +564,7 @@ class GlobeRecon {
         tooltip.textContent = text;
         tooltip.style.cssText = `
             position: absolute;
-            background: rgba(0,0,0,0.9);
+            background: #c77dff;
             color: var(--terminal-green);
             padding: 0.5rem;
             border-radius: 4px;
