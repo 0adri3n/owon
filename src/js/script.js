@@ -189,12 +189,16 @@ class owon {
         this.path = null;
         this.worldData = null;
         this.zoom = null;
+        this.countriesList = [];
         
         this.init();
     }
 
     async init() {
         await this.loadWorldData();
+        this.initializeClock()
+        this.initializeRSSFeed()
+        this.initializeSearch()
         this.setupMap();
     }
 
@@ -271,10 +275,14 @@ class owon {
 
         this.svg.call(zoom)
 
+        this.currentTransform = d3.zoomIdentity;
+
+
         // Dessin des pays
         if (this.worldData) {
-        this.drawCountries()
-        this.drawCountryLabels()
+            this.buildCountriesList()
+            this.drawCountries()
+            this.drawCountryLabels()
         }
     }
 
@@ -305,7 +313,6 @@ class owon {
         .enter()
         .append("text")
         .attr("class", "country-label")
-        // <text class="country-label" x="304" y="172.5" text-anchor="middle" dominant-baseline="middle" style="pointer-events: none; opacity: 1; font-size: 0.430762px;">France</text>
         .attr("x", (d) => {
             const centroid = this.path.centroid(d)
             return centroid[0]
@@ -322,18 +329,75 @@ class owon {
         // Don't ask me why but France Label is placed on Spain lol
         const franceLabel = document.querySelector('#worldMap > svg > g.labels-group > text:nth-child(44)');
         if (franceLabel.textContent == "France") {
-            const newX = 237.5;
-            const newY = 190;
-            franceLabel.setAttribute("x", newX);
-            franceLabel.setAttribute("y", newY);
+            franceLabel.textContent = ""
         }
         this.updateLabels()
 
     }
 
+    initializeClock() {
+        const updateClock = () => {
+        const now = new Date()
+        const timeString = now.toLocaleTimeString("en-US", {
+            hour12: false,
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+        })
+        const dateString = now.toLocaleDateString("en-US", {
+            weekday: "short",
+            month: "short",
+            day: "numeric",
+        })
+
+        const clockElement = document.getElementById("clock")
+        const dateElement = document.getElementById("date")
+
+        if (clockElement) clockElement.textContent = timeString
+        if (dateElement) dateElement.textContent = dateString
+        }
+
+        updateClock()
+        setInterval(updateClock, 1000)
+    }
+
+    async initializeRSSFeed() {
+        try {
+        const rssUrl = "https://feeds.bbci.co.uk/news/world/rss.xml"
+        const proxyUrl = "https://corsproxy.io/?"
+        const fetchUrl = `${proxyUrl}${encodeURIComponent(rssUrl)}`
+
+        const response = await fetch(fetchUrl)
+        const data = await response.text()
+
+        const parser = new DOMParser()
+        const xmlDoc = parser.parseFromString(data, "application/xml")
+        const items = xmlDoc.querySelectorAll("item")
+
+        const headlines = []
+        for (const item of Array.from(items).slice(0, 10)) {
+            const title = item.querySelector("title")?.textContent || ""
+            if (title) headlines.push(title)
+        }
+
+        if (headlines.length > 0) {
+            const tickerContent = document.getElementById("tickerContent")
+            if (tickerContent) {
+            tickerContent.textContent = headlines.join(" • ")
+            }
+        }
+        } catch (error) {
+        console.error("Error loading RSS feed:", error)
+        const tickerContent = document.getElementById("tickerContent")
+        if (tickerContent) {
+            tickerContent.textContent =
+            "Welcome to Owon - Your World News Explorer • Stay informed with global stories • Click any country to explore local news"
+        }
+        }
+    }
     
     updateLabels() {
-        const scale = this.currentTransform.k
+        const scale = (this.currentTransform && this.currentTransform.k) ? this.currentTransform.k : 1;
 
         this.labelsGroup
         .selectAll(".country-label")
@@ -348,7 +412,7 @@ class owon {
             // Adjust font size based on zoom and country size
             const bounds = this.path.bounds(d)
             const area = (bounds[1][0] - bounds[0][0]) * (bounds[1][1] - bounds[0][1])
-            const baseSize = Math.max(12, Math.min(16, Math.sqrt(area) * 0.1))
+            const baseSize = Math.max(12, Math.min(14, Math.sqrt(area) * 0.1))
             return `${baseSize / scale}px`
         })
     }
@@ -360,7 +424,7 @@ class owon {
             .classed('selected', true);
 
         const countryName = this.getCountryName(countryData);
-        console.log('[GlobalRecon] Selected country name:', countryName);
+        console.log('[owon] Selected country name:', countryName);
 
         const region = this.getCountryRegion(countryData);    
         
@@ -518,7 +582,7 @@ class owon {
             const news = await this.fetchNews();
             this.displayNews(news);
         } catch (error) {
-            console.error('[GlobalRecon] Error loading news:', error);
+            console.error('[owon] Error loading news:', error);
             this.showNewsError();
         } finally {
             loading.classList.add('hidden');
@@ -660,6 +724,98 @@ class owon {
             </div>
         `;
     }
+
+    buildCountriesList() {
+        this.countriesList = this.worldData.features
+        .map((d) => ({
+            name: this.getCountryName(d),
+            data: d,
+        }))
+        .sort((a, b) => a.name.localeCompare(b.name))
+    }
+
+    initializeSearch() {
+        const searchInput = document.getElementById("countrySearch")
+        const searchResults = document.getElementById("searchResults")
+
+        if (!searchInput || !searchResults) return
+
+        searchInput.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase().trim()
+
+        if (query.length < 2) {
+            searchResults.classList.add("hidden")
+            return
+        }
+
+        const filteredCountries = this.countriesList
+            .filter((country) => country.name.toLowerCase().includes(query))
+            .slice(0, 8) // Limit to 8 results
+
+        if (filteredCountries.length > 0) {
+            searchResults.innerHTML = filteredCountries
+            .map(
+                (country) => `
+                        <div class="search-result-item" data-country="${country.name}">
+                            ${country.name}
+                        </div>
+                    `,
+            )
+            .join("")
+            searchResults.classList.remove("hidden")
+
+            // Add click handlers to search results
+            searchResults.querySelectorAll(".search-result-item").forEach((item) => {
+            item.addEventListener("click", () => {
+                const countryName = item.dataset.country
+                const countryData = this.countriesList.find((c) => c.name === countryName)
+                if (countryData) {
+                this.selectAndZoomToCountry(countryData.data)
+                searchInput.value = countryName
+                searchResults.classList.add("hidden")
+                }
+            })
+            })
+        } else {
+            searchResults.innerHTML = '<div class="search-result-item">No countries found</div>'
+            searchResults.classList.remove("hidden")
+        }
+        })
+
+        // Hide search results when clicking outside
+        document.addEventListener("click", (e) => {
+        if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+            searchResults.classList.add("hidden")
+        }
+        })
+    }
+
+    selectAndZoomToCountry(countryData) {
+        this.selectCountry(countryData);
+
+        const bounds = this.path.bounds(countryData);
+        const dx = bounds[1][0] - bounds[0][0];
+        const dy = bounds[1][1] - bounds[0][1];
+        const x = (bounds[0][0] + bounds[1][0]) / 2;
+        const y = (bounds[0][1] + bounds[1][1]) / 2;
+
+        const container = d3.select("#worldMap");
+        const width = container.node().getBoundingClientRect().width;
+        const height = 500;
+
+        // option : rester cohérent avec scaleExtent [1,70]
+        const scale = Math.max(1, Math.min(70, 0.9 / Math.max(dx / width, dy / height)));
+        const translate = [width / 2 - scale * x, height / 2 - scale * y];
+
+        this.svg
+            .transition()
+            .duration(750)
+            .call(
+            this.zoom.transform, // <- clé : réutiliser l’instance déjà attachée
+            d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale)
+            );
+    }
+
 }
 
 // Initialize owon system

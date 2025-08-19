@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <CHANGE> Changed title and branding from GlobeRecon to owon -->
+    <!-- Changed title and branding from GlobeRecon to owon -->
     <title>owon - Our World Our News</title>
     <link rel="stylesheet" href="src/css/style.css">
     <link rel="icon" href="src/img/logo.ico">
@@ -15,32 +15,37 @@
         <!-- Header -->
         <header class="header">
             <div class="header-content">
-                <div class="logo">
-                    <!-- <CHANGE> Updated logo text to owon branding -->
-                    <span class="logo-text">owon</span>
-                    <div class="status-indicator"></div>
+                <div class="logo-section">
+                    <h1 class="logo">owon</h1>
+                    <p class="tagline">Our World Our News</p>
                 </div>
-                <div class="tagline">
-                    <!-- <CHANGE> Added journalism tagline -->
-                    <span>Our World Our News</span>
+                <!-- Added RSS news ticker and clock -->
+                <div class="news-ticker-container">
+                    <div class="news-ticker">
+                        <div class="ticker-content" id="tickerContent">
+                            Loading latest news...
+                        </div>
+                    </div>
+                </div>
+                <div class="clock-container">
+                    <div class="clock" id="clock">00:00:00</div>
+                    <div class="date" id="date">Loading...</div>
                 </div>
             </div>
         </header>
 
         <!-- Main Interface -->
         <main class="main-content">
-            <!-- Control Panel -->
-            <div class="control-panel">
-                <div class="panel-section">
-                    <!-- <CHANGE> Changed from technical terms to journalism terms -->
-                    <h3>Latest Stories</h3>
-                </div>
+            <!-- Added search bar for country search -->
+            <div class="search-container">
+                <input type="text" id="countrySearch" placeholder="Search for a country..." class="country-search">
+                <div id="searchResults" class="search-results hidden"></div>
             </div>
 
             <!-- Map Container -->
             <div class="map-container">
                 <div class="map-header">
-                    <!-- <CHANGE> Updated header text to be more journalistic -->
+                    <!-- Updated header text to be more journalistic -->
                     <h2>World News Map</h2>
                     <div class="target-info">
                         <span>Selected Country: </span>
@@ -53,20 +58,20 @@
             <!-- News Panel -->
             <div class="news-panel">
                 <div class="panel-header">
-                    <!-- <CHANGE> Changed from intelligence terms to news terms -->
+                    <!-- Changed from intelligence terms to news terms -->
                     <h3 id="newsTitle">News Articles</h3>
                 </div>
                 
                 <div id="loadingNews" class="loading hidden">
                     <div class="loading-spinner"></div>
-                    <!-- <CHANGE> Changed loading text to journalism context -->
+                    <!-- Changed loading text to journalism context -->
                     <p>Loading news stories...</p>
                 </div>
                 
                 <div id="newsContainer" class="news-container">
                     <div class="welcome-message">
                         <div class="welcome-icon">🌍</div>
-                        <!-- <CHANGE> Updated welcome message for journalism context -->
+                        <!-- Updated welcome message for journalism context -->
                         <h4>Explore World News</h4>
                         <p>Click on any country to read the latest news stories.</p>
                     </div>
@@ -77,14 +82,14 @@
         <!-- Footer -->
         <footer class="footer">
             <div class="footer-content">
-                <!-- <CHANGE> Updated footer branding and message -->
+                <!-- Updated footer branding and message -->
                 <span>owon v1.0.0 | made with ❤️ by 0adri3n</span>
                 <span class="footer-tagline">Our world, our news. Stay updated all around the Blue Planet.</span>
             </div>
         </footer>
     </div>
 
-    <!-- <CHANGE> Updated script reference -->
+    <!-- Updated script reference -->
     <script type="module" src="src/js/script.js"></script>
 </body>
 </html>
