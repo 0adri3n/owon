@@ -3,6 +3,7 @@
 Our world, our news. Stay updated all around the Blue Planet.
 
 <img width="1962" height="923" alt="image" src="https://github.com/user-attachments/assets/917e3346-fdac-4fc8-a7cb-a9b0d2fd9fa3" />
+<img width="1491" height="910" alt="image" src="https://github.com/user-attachments/assets/0cabc730-d01a-485e-9844-76a0a4ab0a9b" />
 
 
 **owon** is an interactive world map platform that allows users to explore the latest news from any country.  
