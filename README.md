@@ -12,14 +12,13 @@ The goal of the project is to make information gathering and situational awarene
 - Interactive world map (click on a country to explore).
 - Access to the latest news from **local media outlets**.
 - Clean and lightweight frontend: **HTML, CSS, JavaScript** (static).
-- Designed with extensibility in mind: OSINT and data analysis integration planned.
 
 ---
 
 ## 🛠️ Tech Stack
 - **Frontend**: Static `HTML`, `CSS`, `JavaScript`
 - **Map Rendering**: SVG / D3.js (planned)
-- **Data Sources**: Local press & open APIs (planned)
+- **Data Sources**: Local press & open RSS
 - **Deployment**: GitHub Pages (static hosting)
 
 ---
@@ -27,7 +26,7 @@ The goal of the project is to make information gathering and situational awarene
 ## 📌 Roadmap
 - [X] Build and style the interactive world map  
 - [X] Display country-level info on click  
-- [ ] Integrate news feeds per country  
+- [X] Integrate news feeds per country  
 - [ ] Add filtering (topics, sources, time)  
 
 ---
