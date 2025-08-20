@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contribute - owon</title>
+    <link rel="stylesheet" href="src/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <h1 class="logo">owon</h1>
+                    <p class="tagline">Our World Our News</p>
+                </div>
+                <nav class="nav-back">
+                    <a href="index.html" class="back-link">← Back to Map</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="sources-main">
+            <div class="sources-container">
+                <h1 class="sources-title">Contribute to owon</h1>
+                <p class="sources-intro">Help us expand our global news coverage by contributing RSS feeds from reliable news sources around the world.</p>
+
+                <div class="contribute-section">
+                    <h2>How to Add RSS Feeds</h2>
+                    <p>Contributing to owon is simple! Follow these steps to add new RSS feeds:</p>
+                    
+                    <div class="step-card">
+                        <h3>Step 1: Find the RSS Feed Section</h3>
+                        <p>Open the <code>script.js</code> file and locate the "OPEN SECTION" for RSS feeds:</p>
+                        <div class="code-block">
+                            <pre><code>// --------------------------------------------------
+// OPEN SECTION : PROPOSE RSS FEEDS HERE !
+this.rss.addFeed("France", "https://www.france24.com/en/france/rss");
+// --------------------------------------------------</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="step-card">
+                        <h3>Step 2: Add Your RSS Feed</h3>
+                        <p>Add a new line with your RSS feed using this format:</p>
+                        <div class="code-block">
+                            <pre><code>this.rss.addFeed("CountryName", "https://example.com/rss-feed-url");</code></pre>
+                        </div>
+                        <p><strong>Examples:</strong></p>
+                        <div class="code-block">
+                            <pre><code>this.rss.addFeed("Germany", "https://www.dw.com/en/rss");
+this.rss.addFeed("Japan", "https://www3.nhk.or.jp/rss/news/cat0.xml");
+this.rss.addFeed("Brazil", "https://www.reuters.com/places/brazil/rss");</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="step-card">
+                        <h3>Step 3: Update the Sources Page</h3>
+                        <p>Don't forget to add your new source to the <code>sources.html</code> page! Add it under the appropriate regional section with:</p>
+                        <ul>
+                            <li>Source name and website</li>
+                            <li>Brief description</li>
+                            <li>Language and region coverage</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="contribute-section">
+                    <h2>RSS Feed Guidelines</h2>
+                    <div class="guidelines-grid">
+                        <div class="guideline-card">
+                            <h4>✅ Good Sources</h4>
+                            <ul>
+                                <li>Established news organizations</li>
+                                <li>Government news agencies</li>
+                                <li>Reputable local newspapers</li>
+                                <li>International news bureaus</li>
+                            </ul>
+                        </div>
+                        <div class="guideline-card">
+                            <h4>❌ Avoid</h4>
+                            <ul>
+                                <li>Personal blogs</li>
+                                <li>Unverified sources</li>
+                                <li>Propaganda outlets</li>
+                                <li>Broken or inactive feeds</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contribute-section">
+                    <h2>Testing Your Contribution</h2>
+                    <p>Before submitting:</p>
+                    <ol>
+                        <li>Verify the RSS feed URL works in a browser</li>
+                        <li>Test that the feed loads properly in owon</li>
+                        <li>Check that articles display correctly</li>
+                        <li>Ensure the source is added to the sources page</li>
+                    </ol>
+                </div>
+
+                <div class="contribute-section">
+                    <h2>Submit Your Contribution</h2>
+                    <p>Once you've added your RSS feeds and updated the sources:</p>
+                    <ol>
+                        <li>Fork the owon repository on GitHub</li>
+                        <li>Make your changes to <code>script.js</code> and <code>sources.html</code></li>
+                        <li>Test your changes locally</li>
+                        <li>Submit a pull request with a clear description</li>
+                    </ol>
+                </div>
+
+                <div class="back-link">
+                    <a href="index.html" class="btn-back">← Back to World Map</a>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <!-- Updated footer branding and message -->
+                <span>owon v1.0.0 | made with ❤️ by 0adri3n</span>
+                <a href="sources.html" class="sources-link">Our sources</a>
+                <a href="contribute.html" class="sources-link">Contribute</a>
+                <span class="footer-tagline">Our world, our news. Stay updated all around the Blue Planet.</span>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
