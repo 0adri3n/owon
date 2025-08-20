@@ -2,6 +2,8 @@
 
 Our world, our news. Stay updated all around the Blue Planet.
 
+<img width="1962" height="923" alt="image" src="https://github.com/user-attachments/assets/917e3346-fdac-4fc8-a7cb-a9b0d2fd9fa3" />
+
 
 **owon** is an interactive world map platform that allows users to explore the latest news from any country.  
 The goal of the project is to make information gathering and situational awareness easier, faster, and more transparent.
